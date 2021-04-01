@@ -1,24 +1,37 @@
 import React from 'react';
+import Axios from 'axios';
+import apiKey from '../config.js';
 
-const Photo = () => {
+
+const Photo = ({match}) => {
+    const topic = match.params.topic;
+    const api = apiKey
+
+    let pictures=[];
+    const performSearch = (query = 'flower') => {
+        Axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api}&tags=${query}&per_page=24&page=1&format=json&nojsoncallback=1`)
+          .then(response => {
+              pictures= response.data.photos.photo
+          })
+          .catch(error => {
+            console.log('Error fetching and parsing data', error);
+          });    
+      }
+      const results = performSearch(topic)
+
+      const createUrl = (server, id, secret) => {
+        return `https://live.staticflickr.com/${server}/${id}_${secret}.jpg`
+    };
+
+
     return (
-        <div class="photo-container">
-            <h2>Results</h2>
-                <ul>
+        <ul>
+            {pictures.map(picture => 
                 <li>
-                    <img src="https://farm5.staticflickr.com/4334/37032996241_4c16a9b530.jpg" alt="" />
+                    <img src= {createUrl(picture.server, picture.id, picture.secret)} alt= "" ></img>
                 </li>
-                <li>
-                    <img src="https://farm5.staticflickr.com/4342/36338751244_316b6ee54b.jpg" alt="" />
-                </li>
-                <li>
-                    <img src="https://farm5.staticflickr.com/4343/37175099045_0d3a249629.jpg" alt="" />
-                </li>
-                <li>
-                    <img src="https://farm5.staticflickr.com/4425/36337012384_ba3365621e.jpg" alt="" />
-                </li>
-            </ul>
-      </div>       
+            )}
+        </ul>
     )
 }
 
