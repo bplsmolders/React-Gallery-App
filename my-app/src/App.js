@@ -16,8 +16,8 @@ class App extends Component {
     super();
     this.state = {
       pictures: [],
-      Catspictures: [],
-      Dogspictures: [],
+      Drumspictures: [],
+      Basspictures: [],
       Guitarspictures: [],
       api: apiKey,  //replace apiKey with your personal key
       loading: false
@@ -27,20 +27,20 @@ class App extends Component {
   componentDidMount(){
     this.performSearch();
 
-    Axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${this.state.api}&tags=cats&per_page=24&page=1&format=json&nojsoncallback=1`)
+    Axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${this.state.api}&tags=drums&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        Catspictures: response.data.photos.photo,
+        Drumspictures: response.data.photos.photo,
       });
     })
     .catch(error => {
       console.log('Error fetching and parsing data', error);
     });    
 
-    Axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${this.state.api}&tags=dogs&per_page=24&page=1&format=json&nojsoncallback=1`)
+    Axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${this.state.api}&tags=Bass&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        Dogspictures: response.data.photos.photo,
+        Basspictures: response.data.photos.photo,
       });
     })
     .catch(error => {
@@ -87,9 +87,9 @@ class App extends Component {
         : 
           <Switch>
             <Route exact path="/" render={() => <Photo data={this.state.pictures} />} />
-            <Route exact path="/Cats" render={() => <Photo data={this.state.Catspictures} />} />
-            <Route exact path="/Dogs" render={() => <Photo data={this.state.Dogspictures} />} />
-            <Route exact path="/Guitars" render={() => <Photo data={this.state.Guitarspictures} />} />
+            <Route exact path="/drums" render={() => <Photo data={this.state.Drumspictures} />} />
+            <Route exact path="/bass" render={() => <Photo data={this.state.Basspictures} />} />
+            <Route exact path="/guitars" render={() => <Photo data={this.state.Guitarspictures} />} />
             <Route exact path="/search/:topic" render={() => <Photo data={this.state.pictures} />} />
             <Route component={NotFound404} />
           </Switch>
