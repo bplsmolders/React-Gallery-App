@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NotFound from './NotFound'
+import NoResults from './NoResults'
 
 class Photo extends Component {
     createUrl = (server, id, secret) => {
@@ -11,7 +11,7 @@ class Photo extends Component {
             <div className="photo-container">
                 {
                     (this.props.data.length===0)
-                    ?    <NotFound />
+                    ?    <NoResults />
                     : <h2>Results</h2>
                 }
                 

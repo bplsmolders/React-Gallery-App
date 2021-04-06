@@ -8,6 +8,7 @@ import Nav from './components/Nav';
 import Photo from './components/Photo';
 import apiKey from './config.js';
 import SearchForm from './components/SearchForm'
+import NotFound404 from './components/NotFound404'
 
 
 class App extends Component {
@@ -69,11 +70,11 @@ class App extends Component {
       });    
   }
 
-  // resetLoading = () => {
-  //   this.setState({
-  //     loading: true
-  //   });
-  // }
+  resetLoading = () => {
+    this.setState({
+      loading: true
+    });
+  }
 
   render() {
     return (
@@ -81,14 +82,18 @@ class App extends Component {
       <div className="container" >
         <Route  render={() => <SearchForm onSearch={this.performSearch} />} />
         <Nav />
-        <Switch>
-          <Route exact path="/" render={() => <Photo data={this.state.pictures} />} />
-          <Route exact path="/Cats" render={() => <Photo data={this.state.Catspictures} />} />
-          <Route exact path="/Dogs" render={() => <Photo data={this.state.Dogspictures} />} />
-          <Route exact path="/Guitars" render={() => <Photo data={this.state.Guitarspictures} />} />
-          <Route exact path="/search/:topic" render={() => <Photo data={this.state.pictures} />} />
-          )
-        </Switch>
+        {(this.state.loading)
+        ? <p>Loading...</p>
+        : 
+          <Switch>
+            <Route exact path="/" render={() => <Photo data={this.state.pictures} />} />
+            <Route exact path="/Cats" render={() => <Photo data={this.state.Catspictures} />} />
+            <Route exact path="/Dogs" render={() => <Photo data={this.state.Dogspictures} />} />
+            <Route exact path="/Guitars" render={() => <Photo data={this.state.Guitarspictures} />} />
+            <Route exact path="/search/:topic" render={() => <Photo data={this.state.pictures} />} />
+            <Route component={NotFound404} />
+          </Switch>
+        }
       </div>
       </BrowserRouter>
     );
