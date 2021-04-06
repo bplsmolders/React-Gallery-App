@@ -19,7 +19,7 @@ class App extends Component {
       Dogspictures: [],
       Guitarspictures: [],
       api: apiKey,  //replace apiKey with your personal key
-      loading: true
+      loading: false
     }
   }
 
@@ -50,7 +50,6 @@ class App extends Component {
     .then(response => {
       this.setState({
         Guitarspictures: response.data.photos.photo,
-        loading: false
       });
     })
     .catch(error => {
@@ -68,14 +67,13 @@ class App extends Component {
       .catch(error => {
         console.log('Error fetching and parsing data', error);
       });    
-
   }
 
-  resetLoading = () => {
-    this.setState({
-      loading: true
-    });
-  }
+  // resetLoading = () => {
+  //   this.setState({
+  //     loading: true
+  //   });
+  // }
 
   render() {
     return (
@@ -89,6 +87,7 @@ class App extends Component {
           <Route exact path="/Dogs" render={() => <Photo data={this.state.Dogspictures} />} />
           <Route exact path="/Guitars" render={() => <Photo data={this.state.Guitarspictures} />} />
           <Route exact path="/search/:topic" render={() => <Photo data={this.state.pictures} />} />
+          )
         </Switch>
       </div>
       </BrowserRouter>

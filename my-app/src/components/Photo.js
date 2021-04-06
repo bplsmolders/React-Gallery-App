@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import Axios from 'axios';
-import apiKey from '../config.js';
-
+import NotFound from './NotFound'
 
 class Photo extends Component {
     createUrl = (server, id, secret) => {
@@ -10,16 +8,20 @@ class Photo extends Component {
 
     render() {
         return (
-            <div class="photo-container">
-            
-            <h2>Results</h2>
-                <ul>
-                    {this.props.data.map(picture => 
-                        <li>
-                            <img src= {this.createUrl(picture.server, picture.id, picture.secret)} alt= "" ></img>
-                        </li>
-                    )}
-                </ul>
+            <div className="photo-container">
+                {
+                    (this.props.data.length===0)
+                    ?    <NotFound />
+                    : <h2>Results</h2>
+                }
+                
+                    <ul>
+                        {this.props.data.map(picture => 
+                            <li key={picture.id}>
+                                <img src={this.createUrl(picture.server, picture.id, picture.secret)} alt=""></img>
+                            </li>
+                        )}
+                    </ul>
             </div>
         )
     }
