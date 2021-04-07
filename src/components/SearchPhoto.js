@@ -2,33 +2,34 @@ import React, {Component} from 'react';
 import NoResults from './NoResults'
 
 class SearchPhoto extends Component {
-
-    // componentDidUpdate(){
-    //  this.checkHistory()
-    // }
-
     createUrl = (server, id, secret) => {
         return `https://live.staticflickr.com/${server}/${id}_${secret}.jpg`
     };
+
+    newSubmit = (topic) => {
+        let query = topic;
+        this.props.performSearch(query);
+    }
     
-    // checkHistory = () => {
-    //         if(this.props.match.params.topic !== this.props.lastSearch){
-    //             return this.props.performSearch(this.props.lastSearch);
-    //         } 
-    // }
-
-    render() {
-        console.log(this.props.match.params.topic)
-        console.log(this.props.lastSearch)
-
-        return (
+    render() {      
+        return(
             <div className="photo-container">
+                {/* checks for results and adapts title */}
                 {
                     (this.props.data.length===0)
-                    ?    <NoResults />
-                    : <h2>Results</h2>
+                    ? <NoResults />
+                    : <h2>{this.props.match.params.topic} pictures</h2>
                 }
-                
+
+                {/* checks if current html matches with the last searchinput. If not, a new Submit is done with the last done Search.
+                    This adds history functionality */}
+                {
+                    (this.props.match.params.topic !== this.props.lastSearch)
+                    ? this.newSubmit(this.props.match.params.topic)
+                    : null
+                }
+
+                {/* Creates a list item for each image */}
                     <ul>
                         {this.props.data.map(picture => 
                             <li key={picture.id}>
@@ -38,6 +39,7 @@ class SearchPhoto extends Component {
                     </ul>
             </div>
         )
+        
     }
 }
 

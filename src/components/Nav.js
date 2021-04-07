@@ -6,9 +6,9 @@ const Nav = () => {
     return(
         <nav className="main-nav">
             <ul>
-                <li><NavLink exact to="/drums">drums</NavLink></li>
-                <li><NavLink to="/bass">bass</NavLink></li>
-                <li><NavLink exact to="/guitars">guitars</NavLink></li>
+                <li><NavLink exact to="/drum">drums</NavLink></li>
+                <li><NavLink exact to="/bass">bass</NavLink></li>
+                <li><NavLink exact to="/guitar">guitar</NavLink></li>
             </ul>
         </nav>
     )
