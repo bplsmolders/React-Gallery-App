@@ -2,13 +2,21 @@ import React, {Component} from 'react';
 import NoResults from './NoResults'
 
 class SearchPhoto extends Component {
+    //componentDidUpdate is used so the function also gets triggered when using the back and forth history functions of the browser
+    componentDidUpdate(){
+        this.newSubmit()
+    }
+
     createUrl = (server, id, secret) => {
         return `https://live.staticflickr.com/${server}/${id}_${secret}.jpg`
     };
 
-    newSubmit = (topic) => {
-        let query = topic;
-        this.props.performSearch(query);
+    /* checks if current html matches with the last searchinput. If not, a new Submit is done with the last done Search.
+    This adds history functionality */
+    newSubmit = () => {
+        if(this.props.match.params.topic !== this.props.lastSearch){
+            this.props.performSearch(this.props.match.params.topic)
+        }
     }
     
     render() {      
@@ -21,14 +29,6 @@ class SearchPhoto extends Component {
                     : <h2>{this.props.match.params.topic} pictures</h2>
                 }
 
-                {/* checks if current html matches with the last searchinput. If not, a new Submit is done with the last done Search.
-                    This adds history functionality */}
-                {
-                    (this.props.match.params.topic !== this.props.lastSearch)
-                    ? this.newSubmit(this.props.match.params.topic)
-                    : null
-                }
-
                 {/* Creates a list item for each image */}
                     <ul>
                         {this.props.data.map(picture => 
@@ -39,7 +39,6 @@ class SearchPhoto extends Component {
                     </ul>
             </div>
         )
-        
     }
 }
 

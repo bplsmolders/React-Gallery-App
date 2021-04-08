@@ -22,7 +22,7 @@ class App extends Component {
       Guitarspictures: [],
       api: apiKey,  //replace apiKey with your personal key
       loading: true,
-      lastSearch: ''
+      lastSearch: 'music'
     }
   }
 
@@ -65,12 +65,14 @@ class App extends Component {
   //performs the search whenever the searchbar is used and displays default pictures when entering the site. 
   performSearch = (query = 'music') => {
     this.setState({
+      loading: true,
       lastSearch: query,
     })
     Axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${this.state.api}&tags=${query}&per_page=24&page=1&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
-          pictures: response.data.photos.photo
+          pictures: response.data.photos.photo,
+          loading: false
         });
       })
       .catch(error => {
@@ -94,7 +96,7 @@ class App extends Component {
             <Route exact path="/drum" render={() => <Photo data={this.state.Drumspictures} title='drum' />} />
             <Route exact path="/bass" render={() => <Photo data={this.state.Basspictures} title='bass' />} />
             <Route exact path="/guitar" render={() => <Photo data={this.state.Guitarspictures} title='guitar' />} />
-            <Route exact path="/:topic" render={(props) => <SearchPhoto data={this.state.pictures} lastSearch={this.state.lastSearch} performSearch={this.performSearch} {...props}/>} />
+            <Route exact path="/search/:topic" render={(props) => <SearchPhoto data={this.state.pictures} lastSearch={this.state.lastSearch} performSearch={this.performSearch} {...props}/>} />
             <Route component={NotFound404} />
           </Switch>
         }
